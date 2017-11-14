@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "Các sản phẩm của chúng tôi";
+}
+
+<style>
+    .fixed-top {
+        position: initial;
+    }
+
+    #mainNav {
+        background-color: #222222 !important;
+        height: 100px;
+    }
+    #product .container {
+        margin: 50px 0;
+        margin-left: 10%;
+        width: 80%;
+        margin-right: 10%;
+    }
+    #product {
+        margin-top: 0;
+        padding: 50px 0;
+    }
+</style>
+
+
+<div ng-app="App"
+     ng-controller="ProductViewController">
+    <!-- Portfolio Grid -->
+    <section class="bg-light" id="product">
+        <div class="container" ng-repeat="cate in listCategories track by $index">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">{{cate.Name}}</h2>
+                    <h3 class="section-subheading text-muted">{{cate.Descriptions}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 portfolio-item" 
+                     ng-repeat="product in cate.listProducts track by $index"
+                     ng-show="product.Status != 'hide'">
+                    <a class="portfolio-link" data-toggle="modal" href="#portfolioModal{{cate.Id + '-' + product.Id}}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-search-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img class="img-fluid" src="{{product.Images[0].Url}}" alt="Image">
+                    </a>
+                    <div class="portfolio-caption">
+                        <h4>{{product.Title}}</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Portfolio Modals -->
+    <!-- Modal 1 -->
+    <div class="portfolio-modal modal fade"
+         id="portfolioModal{{product.Category.Id + '-' + product.Id}}" 
+         tabindex="-1" role="dialog" 
+         aria-hidden="true" 
+         ng-repeat="product in listProducts track by $index">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>{{product.Title}}</h2>
+                                <div class="product-image">
+                                    <div ng-repeat="img in product.Images track by $index"><img src="{{img.Url}}" alt="Product Image"></div>
+                                </div>
+                                <br>
+                                <div class="detail-wrapper">
+                                    <h4>Thông tin chi tiết</h4>
+                                    <div class="des" ng-bind-html="product.Descriptions">
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                                    <i class="fa fa-times"></i>
+                                    Đóng lại
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

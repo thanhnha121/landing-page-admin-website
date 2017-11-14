@@ -1,0 +1,22 @@
+﻿.marquee {
+    width: 2200px;
+    height: 100px;
+}
+
+.exchangeEl {
+    float: left;
+    display: inline-block;
+    margin-right: 90px;
+}
+
+.exchangePrice {
+    font-weight: 600;
+    font-size: 17px;
+}
+
+    .exchangePrice:not(:nth-child(1)) > span:first-child {
+        width: 47px !important;
+        display: block;
+        float: left;
+    }
+

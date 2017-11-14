@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý hệ thống";
+}
+
+<style>
+    .fixed-top {
+        position: initial;
+    }
+
+    #mainNav {
+        background-color: #222222 !important;
+    }
+
+    .wrapper {
+        width: 100%;
+        padding: 100px 120px;
+        margin: 0 -15px;
+    }
+
+    .row {
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+        .row i {
+            margin-top: 3px;
+            color: #fed136;
+            margin-right: 5px;
+            font-size: 18px;
+        }
+        .btn {
+            padding-bottom: 10px;
+        }
+</style>
+
+<div class="wrapper" ng-app="App"
+     ng-controller="AdminController">
+    <h2>Trang quản lý Admin</h2>
+    <div class="row">
+        <div class="btn btn-info"><i class="fa fa-angle-double-right"></i> <a href="/Product/ListProduct">Danh sách sản phẩm</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn btn-info">
+            <i class="fa fa-angle-double-right"></i> <a href="/Product/Category">Danh sách Chuyên mục sản phẩm</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn btn-info">
+            <i class="fa fa-angle-double-right"></i> <a href="/Admin/Email">Danh sách Email gửi đến</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="btn btn-info">
+            <i class="fa fa-angle-double-right"></i> <a href="/News/Manager">Danh sách bài viết</a>
+        </div>
+    </div>
+</div>

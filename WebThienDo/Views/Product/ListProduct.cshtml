@@ -1,0 +1,281 @@
+﻿
+@{
+    ViewBag.Title = "Quản lý - Danh sách sản phẩm";
+}
+
+<style>
+    .fixed-top {
+        position: initial;
+    }
+
+    #mainNav {
+        background-color: #222222 !important;
+    }
+
+    .wrapper {
+        width: 100%;
+        padding: 100px 100px;
+    }
+
+    .list-img-upload {
+    }
+
+    .li-img-upload {
+        width: 70px;
+        height: 70px;
+        border: 1px solid rgba(0, 0, 0, .1);
+        text-align: center;
+        color: rgba(0,0,0,.1);
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        float: left;
+    }
+
+        .li-img-upload i.fa.fa-close {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            top: -10px;
+            right: -10px;
+            height: 25px;
+            width: 25px;
+            text-align: center;
+            padding-top: 3px;
+            font-size: 16px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .1);
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, .1);
+            transition: all 0.2s;
+        }
+
+            .li-img-upload i.fa.fa-close:hover {
+                color: rgba(255,0,0,.7);
+            }
+
+        .li-img-upload:hover {
+            border: 1px solid rgba(0, 0, 0, .2);
+            color: rgba(0,0,0,.2);
+        }
+
+        .li-img-upload.empty i {
+            font-size: 26px;
+            margin-top: calc(50% - 13px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .li-img-upload input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .li-img-upload .img {
+            background-size: contain !important;
+            background-position: center !important;
+            height: 100%;
+        }
+
+    .col-md-12 {
+        padding: 0;
+    }
+
+    .row {
+        margin: 10px 0;
+    }
+
+    .td-btn {
+        float: left;
+        display: inline-block;
+        width: initial;
+        margin-right: 5px;
+        max-width: 100%;
+        margin-top: 5px;
+    }
+
+    .dropdown-menu li {
+        width: 100%;
+        height: 35px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+        .dropdown-menu li:hover {
+            background: #eee;
+        }
+</style>
+
+
+
+<div class="wrapper"
+     ng-app="App"
+     ng-controller="ProductController">
+
+    <h2>Danh sách sản phẩm</h2>
+    <a class="btn btn-warning" href="/Admin">
+        <i class="fa fa-reply"></i> Trở về trang quản lý
+    </a>
+    <br />
+    <br />
+
+    <div class="form-group">
+        <div class="btn btn-info" ng-click="$scope.reset(); mode = 'add';">
+            <i class="fa fa-plus"></i> Thêm sản phẩm
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="mode == ''">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Mô tả</th>
+                    <th>Chuyên mục</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in listProducts track by $index">
+                    <td>{{p.Title}}</td>
+                    <td><div ng-bind-html="p.Descriptions"></div></td>
+                    <td>{{p.Category.Name}}</td>
+                    <td>
+                        <div class="col-md-6 btn btn-success td-btn" ng-click="editProductClick(p)"><i class="fa fa-edit"></i> Sửa</div>
+                        <div class="col-md-6 btn btn-danger td-btn" ng-click="deleteProductClick(p)"><i class="fa fa-close"></i> Xóa</div>
+                        <div class="col-md-6 btn btn-info td-btn" ng-click="upProductClick(p)"><i class="fa fa-angle-up"></i> Đẩy lên trên</div>
+                        <div class="col-md-6 btn btn-warning td-btn" ng-click="hideProductClick(p)">
+                            <i class="fa fa-{{ p.Status == 'show' ? 'eye-slash' : 'eye' }}"></i> {{p.Status == 'show' ? 'Ẩn Sản phẩm' : 'Hiện Sản phẩm'}}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="add-product-wrapper" ng-show="mode == 'add'">
+        <div class="form-group">
+            <div class="row">
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                        {{ cate.Id != undefined ? 'Chuyên mục: ' + cate.Name : 'Chọn chuyên mục' }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-click="liCateClick(c)"
+                            ng-repeat="c in listCategories track by $index">
+                            <a>{{c.Name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <input class="form-control" placeholder="Tiêu đề" ng-model="title">
+            </div>
+
+            <div class="row">
+                <h6>Ảnh sản phẩm</h6>
+            </div>
+
+            <div class="row">
+                <div class="list-img-upload">
+                    <div class="li-img-upload" ng-repeat="url in imgs track by $index">
+                        <div class="img" style="background: url({{url}}) no-repeat"></div>
+                        <i class="fa fa-close" title="Xóa ảnh này" ng-click="imgs.splice($index, 1);"></i>
+                    </div>
+                    <div class="li-img-upload empty">
+                        <i class="fa fa-plus"></i>
+                        <input type="file" title="Chọn ảnh để tải lên" onchange="angular.element(this).scope().open_file(this)" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p>(Tối đa 5 ảnh)</p>
+            </div>
+
+            <div class="row">
+                <h6>Thông tin sản phẩm</h6>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea id="editor" name="editor" placeholder="Thông tin sản phẩm"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="btn btn-success" ng-click="addNewProductClick()">Lưu lại</div>
+                <div class="btn btn-danger" style="margin-left: 5px;" ng-click="mode = ''">Hủy</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="add-product-wrapper" ng-show="mode == 'edit'">
+        <div class="form-group">
+            <div class="row">
+                <div class="dropdown">
+                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                        {{ cate.Id != undefined ? 'Chuyên mục: ' + cate.Name : 'Chọn chuyên mục' }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-click="liCateClick(c)"
+                            ng-repeat="c in listCategories track by $index">
+                            <a>{{c.Name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <input class="form-control" placeholder="Tiêu đề" ng-model="title">
+            </div>
+
+            <div class="row">
+                <h6>Ảnh sản phẩm</h6>
+            </div>
+
+            <div class="row">
+                <div class="list-img-upload">
+                    <div class="li-img-upload" ng-repeat="url in imgs track by $index">
+                        <div class="img" style="background: url({{url}}) no-repeat"></div>
+                        <i class="fa fa-close" title="Xóa ảnh này" ng-click="imgs.splice($index, 1);"></i>
+                    </div>
+                    <div class="li-img-upload empty">
+                        <i class="fa fa-plus"></i>
+                        <input type="file" title="Chọn ảnh để tải lên" onchange="angular.element(this).scope().open_file(this)" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <p>(Tối đa 5 ảnh)</p>
+            </div>
+
+            <div class="row">
+                <h6>Thông tin sản phẩm</h6>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <textarea id="editor1" name="editor1" placeholder="Thông tin sản phẩm"></textarea>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="btn btn-success" ng-click="saveProductClick()">Lưu lại</div>
+                <div class="btn btn-danger" style="margin-left: 5px;" ng-click="mode = ''">Hủy</div>
+            </div>
+        </div>
+    </div>
+
+</div>

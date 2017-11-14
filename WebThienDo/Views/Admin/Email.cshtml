@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách Email";
+}
+
+
+<style>
+    .fixed-top {
+        position: initial;
+    }
+
+    #mainNav {
+        background-color: #222222 !important;
+    }
+
+    .wrapper {
+        width: 100%;
+        padding: 100px 120px;
+        margin: 0 -15px;
+    }
+
+    .row {
+        margin: 10px 0;
+    }
+
+    .td-btn {
+        float: left;
+        display: inline-block;
+        width: initial;
+        margin-right: 5px;
+        max-width: 100%;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="wrapper"
+     ng-app="App"
+     ng-controller="EmailController">
+    <h2> Danh sách Email</h2>
+    <a class="btn btn-warning" href="/Admin">
+        <i class="fa fa-reply"></i> Trở về trang quản lý
+    </a>
+    <br />
+    <br />
+
+    <div class="form-group" ng-show="listEmails == undefined || listEmails.length == 0">
+        <h6>Danh sách Email trống</h6>
+    </div>
+
+    <div class="form-group" ng-show="listEmails != undefined && listEmails.length > 0">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Tên Người gửi</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Nội dung</th>
+                    <th>Thời gian</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in listEmails track by $index">
+                    <td>{{c.Name}}</td>
+                    <td>{{c.Email}}</td>
+                    <td>{{c.Phone}}</td>
+                    <td>{{c.Contents}}</td>
+                    <td>{{c.DateTime | date : "MMM d, y h:mm:ss a" }}</td>
+                    <td>
+                        <div class="col-md-6 btn btn-success td-btn"><a href="mailto:{{c.Email}}"><i class="fa fa-edit"></i> Trả lời</a></div>
+                        <div class="col-md-6 btn btn-danger td-btn" ng-click="deleteEmailClick(c)"><i class="fa fa-close"></i> Xóa</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

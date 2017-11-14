@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "Trade Coin";
+}
+
+<style>
+    .fixed-top {
+        position: initial;
+    }
+
+    #mainNav {
+        background-color: #222222 !important;
+    }
+
+    section {
+        padding: 100px 0;
+    }
+
+    .blogShort {
+        border-bottom: 1px solid #ddd;
+        flex: initial;
+        max-width: initial;
+        margin-top: 15px;
+    }
+
+    .btn-blog {
+        color: #ffffff;
+        background-color: #37d980;
+        border-color: #37d980;
+        border-radius: 0;
+        margin-bottom: 10px
+    }
+
+        .btn-blog:hover,
+        .btn-blog:focus,
+        .btn-blog:active,
+        .btn-blog.active,
+        .open .dropdown-toggle.btn-blog {
+            color: white;
+            background-color: #34ca78;
+            border-color: #34ca78;
+            cursor: pointer;
+        }
+
+    h3 {
+        color: #34ca78;
+        cursor: pointer;
+    }
+
+        h3 a {
+            text-decoration: none !important;
+            color: #34ca78 !important;
+            outline: none !important;
+        }
+
+    img {
+        cursor: pointer;
+    }
+</style>
+
+<section id="services"
+         ng-app="App"
+         ng-controller="TradeCoinController">
+    <div class="container">
+        <div class="row" style="text-align: center; display: initial;">
+            <h1 class="service-heading">TRADE COIN</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10 blogShort" ng-repeat="post in listNews track by $index">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
+                            <a data-toggle="modal"
+                               href="#newsModal"
+                               ng-click="viewNews(post)">{{post.Title}}</a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="{{post.BannerImage}}" alt="post img" class="pull-left img-responsive thumb margin10 img-thumbnail">
+                    </div>
+                    <div class="col-md-9" style="text-align: justify;">
+                        <article ng-bind-html="post.ShortContent"></article>
+                    </div>
+                </div>
+                <div class="row pull-right">
+                    <div class="col-md-12">
+                        <a class="btn btn-blog"
+                           style="margin-bottom: 10px;"
+                           data-toggle="modal"
+                           href="#newsModal"
+                           ng-click="viewNews(post)">ĐỌC THÊM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Preview -->
+    <div class="portfolio-modal modal fade"
+         id="newsModal"
+         tabindex="-1" role="dialog"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="close-modal" data-dismiss="modal">
+                    <div class="lr">
+                        <div class="rl"></div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <div class="modal-body">
+                                <!-- Project Details Go Here -->
+                                <h2>{{post.Title}}</h2>
+                                <div class="timeline-date" style="font-size: 18px; margin-bottom: 5px;"><i class="fa fa-clock-o"></i>{{post.Date | date : "MMM d, y" }}</div>
+                                <div class="detail-wrapper">
+                                    <div class="des" ng-bind-html="post.Contents">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
