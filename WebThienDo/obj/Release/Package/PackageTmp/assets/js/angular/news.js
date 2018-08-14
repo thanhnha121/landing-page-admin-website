@@ -213,32 +213,7 @@ App.controller("NewsController",
             $scope.uploadFile = function (formData, type) {
                 var url = '';
                 try {
-                    $.ajax({
-                        url: 'http://devchat.zamba.vn/api.php?mod=file&cmd=Upload',
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        type: 'POST',
-                        dataType: 'JSON',
-                        success: (data) => {
-                            if (data.status) {
-                                url = data.link_file;
-                                if (url == undefined || url == '') {
-                                    toasrt.warning('API upload ảnh lỗi, vui lòng kiểm tra lại!');
-                                    return;
-                                }
-                            } else {
-                                toastr.error('Có lỗi trong quá trình tải lên, vui lòng thử lại!');
-                                console.log(data);
-                            }
-                        },
-                        error: (err) => {
-                            toastr.error('Có lỗi trong quá trình tải lên, vui lòng thử lại!');
-                            console.log(err);
-                        },
-                        async: false
-                    });
+                    // do upload
                 } catch (err) {
                     toastr.error('Có lỗi trong quá trình tải lên, vui lòng thử lại!');
                     console.log(err);
